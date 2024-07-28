@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Create new contact">
+        <lightning-input label='Name' value={name} onchange={handleNameChange}></lightning-input>
+        <lightning-input label='Email' value={email} onchange={handleEmailChange}></lightning-input>
+        <lightning-input label='Phone' value={phone} onchange={handlePhoneChange}></lightning-input>
+        <lightning-combobox
+            name='Account'
+            label='Account'
+            value={selectedAccount}
+            placeholder='Select Account'
+            options={accountOptions}
+            onchange={handleAccountChange}
+        ></lightning-combobox>
+        <br>
+        <lightning-button variant='brand' label='Create' title='Create' onclick={handleCreate}></lightning-button>
+        <lightning-button variant='neutral' label='Cancel' title='Cancel' onclick={handleCancel} style="margin-left: 1rem;"></lightning-button>
+    </lightning-card>
+</template>

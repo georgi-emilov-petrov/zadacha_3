@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Contacts" icon-name="standard:contact">
+        <div class="slds-m-around_medium">
+            <c-contact-form oncontactcreated={handleContactCreated}></c-contact-form>
+            <br>
+            <lightning-datatable
+                key-field='Id'
+                data={filteredContacts}
+                columns={columns}
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                onsort={handleSort}
+            ></lightning-datatable>
+        </div>
+    </lightning-card>
+</template>
