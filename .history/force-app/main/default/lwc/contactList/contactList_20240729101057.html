@@ -1,0 +1,56 @@
+<template>
+    <lightning-card title="Contact" icon-name="standard:contact">
+        <div class="slds-var-m-around_medium">
+            <c-contact-form
+                oncontactcreated={handleContactCreated}
+            ></c-contact-form>
+        </div>
+        <br />
+        <div class="slds-var-m-around_medium">
+            <lightning-input
+                type="text"
+                label="Filter text"
+                onchange={handleFilterInput}
+                style="margin-left: 1rem"
+            >
+            </lightning-input>
+            <lightning-combobox
+                name="FilterField"
+                label="Field to filter by"
+                value={filterField}
+                placeholder="Choose a field to filter by"
+                options={filterOptions}
+                onchange={handleFFChange}
+                style="margin-left: 1rem"
+                class="slds-var-p-vertical_small"
+            ></lightning-combobox>
+            <br />
+            <lightning-button
+                variant="brand"
+                label="Filter"
+                title="Filter"
+                onclick={handleFilterClick}
+                style="margin-left: 1rem"
+            ></lightning-button>
+            <lightning-button
+                variant="neutral"
+                label="Clear"
+                title="Clear"
+                onclick={handleFilterClear}
+                style="margin-left: 1rem"
+            ></lightning-button>
+            <br />
+        </div>
+        <div class="slds-var-m-around_large">
+            <lightning-datatable
+                key-field="Id"
+                data={filteredContacts}
+                columns={columns}
+                hide-checkbox-column
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                onsort={handleSort}
+            ></lightning-datatable>
+        </div>
+    </lightning-card>
+</template>
