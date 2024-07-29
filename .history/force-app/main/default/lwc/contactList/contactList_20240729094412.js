@@ -90,44 +90,49 @@ export default class ContactList extends LightningElement {
     }
 
     handleFilterClick() {
-        console.log(this.filterField);
+        console.log("Filter input: " + this.filterInput);
+        console.log("Filter field: " + this.filterField);
 
-        const filterInputLower = this.filterInput
-            ? this.filterInput.toLowerCase()
-            : "";
-        console.log("filterInput.toLowerCase(): " + this.filterInput);
+        try {
+            if (this.filterField === "Account") {
+                this.filteredContacts = this.contacts.filter((row) => {
+                    try {
+                        console.log("Row before filtering: " + JSON.stringify(row));
+                        // Ensure row[AccountName] is checked for null/undefined
+                        if (row.AccountName && typeof row.AccountName.toString === 'function') {
+                            return row.AccountName.toString().includes(this.filterInput.toString());
+                        } else {
+                            console.warn("AccountName key is missing or invalid in row: " + JSON.stringify(row));
+                            return false; // Exclude rows that do not meet the criteria
+                        }
+                    } catch (error) {
+                        console.error("Error in filter callback for Account: " + error.message);
+                        return false; // Exclude rows that cause an error
+                    }
+                });
+            } else {
+                this.filteredContacts = this.contacts.filter((row) => {
+                    try {
+                        // Ensure row[this.filterField] is checked for null/undefined
+                        if (row[this.filterField] && typeof row[this.filterField].toString === 'function') {
+                            return row[this.filterField].toString().includes(this.filterInput.toString());
+                        } else {
+                            console.warn(this.filterField + " key is missing or invalid in row: " + JSON.stringify(row));
+                            return false; // Exclude rows that do not meet the criteria
+                        }
+                    } catch (error) {
+                        console.error("Error in filter callback for " + this.filterField + ": " + error.message);
+                        return false; // Exclude rows that cause an error
+                    }
+                });
+            }
 
-        if (!filterInputLower) {
-            this.filteredContacts = this.contacts;
-            console.log("No filter input, displaying all contacts.");
+            console.log("Filtered contacts: " + JSON.stringify(this.filteredContacts));
             return this.filteredContacts;
+        } catch (error) {
+            console.error("Error in handleFilterClick: " + error.message);
+            return [];
         }
-
-        if (this.filterField === "Account") {
-            this.filteredContacts = this.contacts.filter((row) => {
-                console.log("row: " + JSON.stringify(row));
-                const accountName = row.AccountName
-                    ? row.AccountName.toLowerCase()
-                    : "";
-                console.log("accountName: " + accountName);
-                const result = accountName.includes(filterInputLower);
-                console.log("result: " + result);
-                return result;
-            });
-        } else {
-            this.filteredContacts = this.contacts.filter((row) => {
-                const fieldValue = row[this.filterField]
-                    ? row[this.filterField].toLowerCase()
-                    : "";
-                console.log("fieldValue: " + fieldValue);
-                return fieldValue.includes(filterInputLower);
-            });
-        }
-
-        console.log(
-            "filteredContacts: " + JSON.stringify(this.filteredContacts)
-        );
-        return this.filteredContacts;
     }
 
     handleFilterClear() {

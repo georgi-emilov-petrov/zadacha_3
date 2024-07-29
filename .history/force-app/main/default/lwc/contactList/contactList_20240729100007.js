@@ -90,14 +90,13 @@ export default class ContactList extends LightningElement {
     }
 
     handleFilterClick() {
+        console.log(this.filterInput);
         console.log(this.filterField);
 
-        const filterInputLower = this.filterInput
-            ? this.filterInput.toLowerCase()
-            : "";
-        console.log("filterInput.toLowerCase(): " + this.filterInput);
+        const filterInputLower = this.filterInput ? this.filterInput.toLowerCase() : '';
 
         if (!filterInputLower) {
+            // If the filter input is empty, return all contacts
             this.filteredContacts = this.contacts;
             console.log("No filter input, displaying all contacts.");
             return this.filteredContacts;
@@ -105,28 +104,17 @@ export default class ContactList extends LightningElement {
 
         if (this.filterField === "Account") {
             this.filteredContacts = this.contacts.filter((row) => {
-                console.log("row: " + JSON.stringify(row));
-                const accountName = row.AccountName
-                    ? row.AccountName.toLowerCase()
-                    : "";
-                console.log("accountName: " + accountName);
-                const result = accountName.includes(filterInputLower);
-                console.log("result: " + result);
-                return result;
+                const accountName = row.AccountName ? row.AccountName.toString().toLowerCase() : '';
+                return accountName.includes(filterInputLower);
             });
         } else {
             this.filteredContacts = this.contacts.filter((row) => {
-                const fieldValue = row[this.filterField]
-                    ? row[this.filterField].toLowerCase()
-                    : "";
-                console.log("fieldValue: " + fieldValue);
+                const fieldValue = row[this.filterField] ? row[this.filterField].toString().toLowerCase() : '';
                 return fieldValue.includes(filterInputLower);
             });
         }
 
-        console.log(
-            "filteredContacts: " + JSON.stringify(this.filteredContacts)
-        );
+        console.log("filteredContacts: " + JSON.stringify(this.filteredContacts));
         return this.filteredContacts;
     }
 

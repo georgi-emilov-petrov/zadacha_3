@@ -90,14 +90,15 @@ export default class ContactList extends LightningElement {
     }
 
     handleFilterClick() {
+        console.log(this.filterInput);
         console.log(this.filterField);
 
         const filterInputLower = this.filterInput
             ? this.filterInput.toLowerCase()
             : "";
-        console.log("filterInput.toLowerCase(): " + this.filterInput);
 
         if (!filterInputLower) {
+            // If the filter input is empty, return all contacts
             this.filteredContacts = this.contacts;
             console.log("No filter input, displaying all contacts.");
             return this.filteredContacts;
@@ -109,17 +110,13 @@ export default class ContactList extends LightningElement {
                 const accountName = row.AccountName
                     ? row.AccountName.toLowerCase()
                     : "";
-                console.log("accountName: " + accountName);
-                const result = accountName.includes(filterInputLower);
-                console.log("result: " + result);
-                return result;
+                return accountName.includes(filterInputLower);
             });
         } else {
             this.filteredContacts = this.contacts.filter((row) => {
                 const fieldValue = row[this.filterField]
                     ? row[this.filterField].toLowerCase()
                     : "";
-                console.log("fieldValue: " + fieldValue);
                 return fieldValue.includes(filterInputLower);
             });
         }
