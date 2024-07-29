@@ -94,8 +94,8 @@ export default class ContactList extends LightningElement {
         console.log(this.filterField);
         if (this.filterField === "Account") {
             this.filteredContacts = this.contacts.filter((row) => {
+                row[AccountName].toString().includes(this.filterInput);
                 console.log("row: " + JSON.stringify(row));
-                row["AccountName"].toString().includes(this.filterInput);
             });
         } else {
             this.filteredContacts = this.contacts.filter((row) =>

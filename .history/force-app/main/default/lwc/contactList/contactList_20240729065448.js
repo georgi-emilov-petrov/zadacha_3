@@ -5,6 +5,7 @@ import { refreshApex } from "@salesforce/apex";
 export default class ContactList extends LightningElement {
     contacts = [];
     filteredContacts = [];
+    oldFilteredContacts = [];
     sortedBy;
     sortedDirection = "asd";
     wiredContactResult;
@@ -90,25 +91,25 @@ export default class ContactList extends LightningElement {
     }
 
     handleFilterClick() {
+        this.oldFilteredContacts = this.filteredContacts;
         console.log(this.filterInput);
         console.log(this.filterField);
-        if (this.filterField === "Account") {
-            this.filteredContacts = this.contacts.filter((row) => {
-                console.log("row: " + JSON.stringify(row));
-                row["AccountName"].toString().includes(this.filterInput);
-            });
-        } else {
-            this.filteredContacts = this.contacts.filter((row) =>
-                row[this.filterField].toString().includes(this.filterInput)
-            );
-        }
-        console.log(
-            "filteredContacts: " + JSON.stringify(this.filteredContacts)
+        this.filteredContacts = this.oldFilteredContacts.filter((row) =>
+            row[this.filterField].toString().includes(this.filterInput)
         );
+        console.log('filteredContacts: ' + this.filteredContacts);
         return this.filteredContacts;
+        // this.filteredContacts = this.filteredContacts.filter((row) => {
+        //     return row[this.filterField]
+        //         .toString()
+        //         .toLowerCase()
+        //         .includes(this.filterInput.toLowerCase());
+        // });
     }
 
     handleFilterClear() {
-        this.filteredContacts = this.contacts;
+        this.filteredContacts = this.oldFilteredContacts;
+        this.filterInput = "";
+        this.filterField = '';
     }
 }

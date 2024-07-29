@@ -41,7 +41,7 @@
             ></lightning-button>
             <br />
         </div>
-        <div class="slds-var-m-around_medium" style="margin-left: 1rem">
+        <div class="slds-var-m-around_medium">
             <lightning-datatable
                 key-field="Id"
                 data={filteredContacts}
@@ -50,6 +50,7 @@
                 sorted-by={sortedBy}
                 sorted-direction={sortedDirection}
                 onsort={handleSort}
+                style="margin-left: 1rem"
             ></lightning-datatable>
         </div>
     </lightning-card>

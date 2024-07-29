@@ -8,8 +8,6 @@ export default class ContactList extends LightningElement {
     sortedBy;
     sortedDirection = "asd";
     wiredContactResult;
-    filterInput;
-    filterField;
 
     filterOptions = [
         { label: "Name", value: "Name" },
@@ -78,37 +76,5 @@ export default class ContactList extends LightningElement {
         this.filteredContacts = cloneData;
         this.sortedBy = sortedBy;
         this.sortedDirection = sortDirection;
-    }
-
-    handleFilterInput(event) {
-        this.filterInput = event.target.value;
-    }
-
-    handleFFChange(event) {
-        this.filterField = event.detail.value;
-        console.log("filterField: " + this.filterField);
-    }
-
-    handleFilterClick() {
-        console.log(this.filterInput);
-        console.log(this.filterField);
-        if (this.filterField === "Account") {
-            this.filteredContacts = this.contacts.filter((row) => {
-                console.log("row: " + JSON.stringify(row));
-                row["AccountName"].toString().includes(this.filterInput);
-            });
-        } else {
-            this.filteredContacts = this.contacts.filter((row) =>
-                row[this.filterField].toString().includes(this.filterInput)
-            );
-        }
-        console.log(
-            "filteredContacts: " + JSON.stringify(this.filteredContacts)
-        );
-        return this.filteredContacts;
-    }
-
-    handleFilterClear() {
-        this.filteredContacts = this.contacts;
     }
 }
